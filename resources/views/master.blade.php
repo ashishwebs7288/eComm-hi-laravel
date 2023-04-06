@@ -22,5 +22,32 @@
         height: 400px;
         padding-top:100px;
     }
+    img.slider-img
+    {
+        height: 400px !important;
+        width: 100%;
+    }
+    .custom-product
+    {
+        height:500px;
+    }
+    .slider-text
+    {
+        background-color: #cbcbcb;
+    }
+    .trandding-image
+    {
+        height:100px;
+    }
+    .trandding-item
+    {
+        float:left;
+        
+        width:20%;
+    }
+    .tranding-appear
+    {
+        margin:30px;
+    }
 </style>
 </html>
