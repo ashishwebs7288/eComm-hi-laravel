@@ -49,5 +49,12 @@
     {
         margin:30px;
     }
+    .search-box
+    {
+        width: 500px !important;
+    }
+    a{
+        text-decoration: none ;
+    }
 </style>
 </html>
