@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Cart;
+use App\Models\Order;
+use Illuminate\Support\Facades\DB;
 use Session;
 
 class ProductController extends Controller
@@ -43,8 +45,64 @@ class ProductController extends Controller
     }
     static function cartItem()
     {
-        $user_id= Session::get('user')['id'];
-        return Cart::where('user_id',$user_id)->count();
+        $user_Id= Session::get('user')['id'];
+        return Cart::where('user_id',$user_Id)->count();
     }
+     function cartList()
+    {
+        // return "cartList";
+        $user_Id= Session::get('user')['id'];
+        $products= DB::table('cart')
+        ->join('products','cart.product_id','=','products.id')
+        ->where('cart.user_id',$user_Id)
+        ->select('products.*','cart.id as cart_id')->get();
+        return view('cartlist',['products'=>$products]);
+        //dd($products);
+
+    }
+    function removeCart($id)
+    {
+        Cart::destroy($id);
+        return redirect('/cartlist');
+    }
+    function orderNow()
+    {
+        $user_Id= Session::get('user')['id'];
+       $total= $products= DB::table('cart')
+        ->join('products','cart.product_id','=','products.id')
+        ->where('cart.user_id',$user_Id)
+        ->sum('products.price') ;
+        return view('ordernow',['total'=>$total]);
+       
+    }
+    function orderPlace(Request $req)
+    {
+         $user_Id = Session()->get('user')['id'];
+          $allCart= Cart::where('user_id',$user_Id)->get();
+          foreach($allCart as $cart)
+          {
+            $order= new Order;
+            $order->product_id= $cart['product_id'];
+            $order->user_id= $cart['user_id'];
+            $order->status='pendding';
+            $order->payment_method= $req->payment;
+            $order->payment_status="pandding";
+            $order->address= $req->address;
+            $order->save();
+            Cart::where('user_id',$user_Id)->delete();
+
+          }
+        return redirect('/');
+    }
+    public function myOrders()
+    {
+        $user_Id= Session::get('user')['id'];
+        $orders= $products= DB::table('orders')
+         ->join('products','orders.product_id','=','products.id')
+         ->where('orders.user_id',$user_Id)
+         ->get() ;
+         return view('myorders',['orders'=>$orders]);
+    }
+    
 
 } 

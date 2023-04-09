@@ -1,6 +1,6 @@
 @extends('master')
 @section('content')
-<div class="row">
+<div class="row ms-5">
     <div class="col-sm-4">
 Filter
     </div>
@@ -8,7 +8,7 @@ Filter
     <div class="custome-product">
     <h4>Results for Product</h4>
     @foreach($products as $item)
-<div class="search-item">
+<div class="search-item ">
 <a href="detail/{{$item['id']}}">
       <img src="{{$item['gallery']}}" class="trandding-image">
       <div class="">

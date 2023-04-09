@@ -52,6 +52,14 @@
     .search-box
     {
         width: 500px !important;
+        
+    }
+    
+    .cart-list-divider
+    {
+        border-bottom: 5px solid black;
+        margin-bottom:20px;
+        padding-bottom:20px;
     }
     a{
         text-decoration: none ;
